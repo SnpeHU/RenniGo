@@ -2,6 +2,7 @@ extends Node2D
 
 @export var move_range: float = 100.0  # 在原点周围移动的范围
 @export var move_duration: float = 2.0  # 移动持续时间
+@onready var boxs:Node2D = $Boxs
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -24,3 +25,10 @@ func _on_timer_timeout() -> void:
 	tween.set_trans(Tween.TRANS_CUBIC)
 	tween.tween_property(self, "global_position", target_position, move_duration)
 	#tween.tween_callback(func(): print("Car moved to position: ", global_position))
+	
+	#清楚boxs节点下的所有盒子
+func clear_box() -> void:
+	
+	for child in boxs.get_children():
+			child.queue_free()
+		

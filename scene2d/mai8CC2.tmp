@@ -1,6 +1,7 @@
-[gd_scene load_steps=12 format=3 uid="uid://dk4p3p1w225ee"]
+[gd_scene load_steps=13 format=3 uid="uid://dk4p3p1w225ee"]
 
 [ext_resource type="Script" path="res://script/main_2d.gd" id="1_ro3ow"]
+[ext_resource type="PackedScene" uid="uid://dfpaoxri17ee7" path="res://scene2d/box2D.tscn" id="2_dch5o"]
 [ext_resource type="Script" path="res://addons/phantom_camera/scripts/phantom_camera/phantom_camera_2d.gd" id="3_y0oci"]
 [ext_resource type="Script" path="res://addons/phantom_camera/scripts/resources/tween_resource.gd" id="4_nu0xv"]
 [ext_resource type="PackedScene" uid="uid://7gmnxromwc7s" path="res://scene2d/car.tscn" id="4_th2dw"]
@@ -22,10 +23,11 @@ bounce = 0.24
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5lmx4"]
 size = Vector2(2000, 100)
 
-[node name="Main2D" type="Node2D" node_paths=PackedStringArray("car_box", "camera", "camera_follow")]
+[node name="Main2D" type="Node2D" node_paths=PackedStringArray("boxs_node", "box_respwanser", "camera", "camera_follow")]
 script = ExtResource("1_ro3ow")
-respwanser_initial_pos = Vector2(0, -750)
-car_box = NodePath("Boxs/Car/RigidBody2D")
+box_prefab = ExtResource("2_dch5o")
+boxs_node = NodePath("Boxs")
+box_respwanser = NodePath("")
 camera = NodePath("PhantomCamera2D")
 camera_follow = NodePath("Camera_follow")
 follow_point_offset = 250.0
@@ -81,7 +83,7 @@ process_priority = 300
 process_physics_priority = 300
 script = ExtResource("5_cavwn")
 
-[node name="BackGround" type="Node2D" parent="."]
+[node name="BackGround" type="Node" parent="."]
 
 [node name="货车素材" type="Sprite2D" parent="BackGround"]
 position = Vector2(-123, 92)

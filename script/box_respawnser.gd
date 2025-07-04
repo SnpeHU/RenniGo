@@ -49,22 +49,21 @@ func _process(delta: float) -> void:
 func _physics_process(delta: float) -> void:
 	global_position = global_position.lerp(move_target,delta * MOVE_SPEED)
 
-func create_box_at_respawn_pos(_top_box:Node2D): #把最顶上的盒子传给新生成的盒子
+func create_box_at_respawn_pos():
 	if(box_hold != null):
 		return
 	var box_instance = box_prefab.instantiate()
 	if box_instance == null:
 		return
-	box_instance.set_top_box(_top_box)
+	#box_instance.set_top_box(_top_box)
 	respawn_pos.add_child(box_instance)
 	box_hold = box_instance
-	#update_current_box.emit(box_instance)
-	# 将盒子添加到场景中的Boxs节点下
 
 #放下盒子
 func put_box_down():
 	var applied_velocity = current_velocity * inertia_factor
 	update_current_box.emit(box_hold, applied_velocity)
+
 	box_hold.put()
 	box_hold = null
 

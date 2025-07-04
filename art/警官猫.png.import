@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://bfi2p4qr38w7w"
 path.s3tc="res://.godot/imported/警官猫.png-388898a2ebb59b885dfc3c25c6e9e836.s3tc.ctex"
+path.etc2="res://.godot/imported/警官猫.png-388898a2ebb59b885dfc3c25c6e9e836.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://art/警官猫.png"
-dest_files=["res://.godot/imported/警官猫.png-388898a2ebb59b885dfc3c25c6e9e836.s3tc.ctex"]
+dest_files=["res://.godot/imported/警官猫.png-388898a2ebb59b885dfc3c25c6e9e836.s3tc.ctex", "res://.godot/imported/警官猫.png-388898a2ebb59b885dfc3c25c6e9e836.etc2.ctex"]
 
 [params]
 

@@ -1,11 +1,14 @@
 extends Node2D
 
-@export var box_prefab: PackedScene #盒子预制体
-@export var boxs_node: Node2D; #生成盒子的节点
-@export var box_respwanser: Node2D#搬运猫
+@export var box_prefab: PackedScene  = preload("res://scene2d/box2D.tscn")#盒子预制体
+@export var box_respawnser_prefab:PackedScene  = preload("res://scene2d/box_respawnser.tscn")
 
+@onready var boxs_node: Node2D = $Boxs; #存放盒子的节点
+var box_respwanser: Node2D#搬运猫
+@export var respwanser_initial_pos: Vector2#
+
+@onready var car:Node2D = $Boxs/Car
 @export var car_box: Node2D
-@export var car:Node2D
 @export var top_box: Node2D #最顶上的盒子，即需要与坠落的盒子判定的盒子，最初为Car
 var current_box: Node2D;#坠落中的盒子
 
@@ -17,31 +20,17 @@ var current_box: Node2D;#坠落中的盒子
 var box_count:int = 0
 var score:int = 0
 
+#TODO 重置游戏
+
 
 # Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	
-	if box_prefab == null:
-		box_prefab = preload("res://scene2d/box2D.tscn") #预加载盒子预制体
-	
-	#获取盒子生成节点
-	if boxs_node == null:
-		boxs_node = $Boxs
-		
-	if box_respwanser == null:
-		box_respwanser = $Box_respawnser
-	
-	car = $Boxs/Car
+func _ready() -> void:		
 	car_box = $Boxs/Car/RigidBody2D
 	top_box = $Boxs/Car/RigidBody2D
 	
+	#初始化盒子出生的
+	init_respawnser()
 
-	#camera.set_follow_offset(Vector2(1, 1))
-	
-	box_respwanser.update_current_box.connect(_on_update_current_box)
-	box_respwanser.create_box_at_respawn_pos(top_box)
-	box_respwanser.update_move_target(top_box.global_position)
-	
 	
 		
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -54,6 +43,11 @@ func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("put_down"):
 		if(box_respwanser.box_hold):
 			box_respwanser.put_box_down()
+	
+	#按R键重置游戏
+	if event.is_action_pressed("reset_game"):
+		reset()
+
 
 	#if event is InputEventKey:
 		#if event.is_action_pressed("drop"):
@@ -96,9 +90,11 @@ func create_box_at_position_debug(pos:Vector2):
 	boxs_node.add_child(box_instance)
 	
 
-# 更新current_box
+# 释放盒子时，更新current_box
 func _on_update_current_box(new_current_box:Node2D, velocity:Vector2):
 	current_box = new_current_box
+	#设置当前盒子需要判定的盒子
+	current_box.set_top_box(top_box)
 	current_box.reparent(boxs_node)
 	current_box.set_deferred("freeze", false)
 	
@@ -117,20 +113,63 @@ func _on_update_current_box(new_current_box:Node2D, velocity:Vector2):
 # 当盒子成功下落时，更新top_box,更新摄像机跟随点,分数。。
 func _on_box_stabilized(new_top_box: Node2D):
 	top_box = new_top_box
-	top_box.reparent(car)
-	box_respwanser.create_box_at_respawn_pos(top_box)
+	#重设父节点为car内的boxs节点
+	top_box.reparent($Boxs/Car/Boxs)
+	
+	box_respwanser.create_box_at_respawn_pos()
 	box_respwanser.update_move_target(top_box.global_position)
 	#更新分数
 	box_count += 1
 	score += 100
 	$HUD.update_data(box_count,score)
 	#更新相机追踪点
-	if(new_top_box.global_position.y < camera_follow.global_position.y + follow_point_offset):
+	if(top_box.global_position.y < camera_follow.global_position.y + follow_point_offset):
 		camera_follow.global_position.y = top_box.global_position.y - follow_point_offset
-	print("Top box updated to: ", new_top_box.name)
+	#print("Top box updated to: ", new_top_box.name)
 
 
 func _on_box_falldown():
-	box_respwanser.create_box_at_respawn_pos(top_box)
+	box_respwanser.create_box_at_respawn_pos()
 	score -= 20
 	$HUD.update_data(box_count,score)
+	
+
+func init_respawnser() -> void:
+	if(box_respwanser != null):
+		box_respwanser.queue_free()
+		
+	box_respwanser = box_respawnser_prefab.instantiate()
+	add_child(box_respwanser)
+	box_respwanser.global_position = respwanser_initial_pos
+	box_respwanser.update_current_box.connect(_on_update_current_box)
+	box_respwanser.create_box_at_respawn_pos()
+	box_respwanser.update_move_target(car.global_position)
+
+#重置游戏状态
+func reset()->void:
+	box_count = 0
+	score = 0
+	
+	# 清理car上的盒子）
+	car.clear_box()
+
+	# 重置top_box为初始状态（car）
+	if car_box != null:
+		top_box = car_box
+	
+	# 重置current_box
+	current_box = null
+	
+	# 重置相机位置
+	if camera_follow != null:
+		camera_follow.global_position = Vector2.ZERO
+	
+	# 删除box_respwanser
+	box_respwanser.queue_free()
+	init_respawnser()
+
+	# 更新HUD显示
+	if has_node("HUD"):
+		$HUD.update_data(box_count, score)
+	
+	print("Game reset completed")
