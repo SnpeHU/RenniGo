@@ -1,0 +1,76 @@
+[gd_scene load_steps=11 format=3 uid="uid://dfpaoxri17ee7"]
+
+[ext_resource type="Script" uid="uid://dq36pmrd8y1a6" path="res://script/box_2d.gd" id="1_jmass"]
+[ext_resource type="Shader" uid="uid://dc0nkf4tvq858" path="res://shader/outline.gdshader" id="2_rfxy5"]
+[ext_resource type="Texture2D" uid="uid://cmjwsysdd53ge" path="res://art/箱子.png" id="2_wrd5v"]
+[ext_resource type="Texture2D" uid="uid://sg3ql7wlcc6i" path="res://art/smoke12.png" id="4_4kerv"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_q8cfy"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_s50vv"]
+shader = ExtResource("2_rfxy5")
+shader_parameter/outline_width = 5.0
+shader_parameter/alpha = 1.0
+shader_parameter/outline_color = Color(1, 1, 1, 1)
+shader_parameter/enable_outline = true
+shader_parameter/pulse_speed = 1.5
+shader_parameter/min_alpha = 0.0
+shader_parameter/max_alpha = 1.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_l454y"]
+size = Vector2(100, 60)
+
+[sub_resource type="Curve" id="Curve_omh0q"]
+_data = [Vector2(0.00664452, 0.574766), 0.0, -0.31526, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_voi84"]
+width = 32
+curve = SubResource("Curve_omh0q")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_tjbap"]
+particle_flag_disable_z = true
+emission_shape_offset = Vector3(0, 50, 0)
+emission_shape = 3
+emission_box_extents = Vector3(50, 1, 1)
+angle_min = 1.07288e-05
+angle_max = 180.0
+spread = 180.0
+initial_velocity_min = 3.0
+initial_velocity_max = 30.0
+gravity = Vector3(0, 2, 0)
+scale_min = 0.1
+scale_max = 0.3
+scale_over_velocity_max = 1000.0
+alpha_curve = SubResource("CurveTexture_voi84")
+
+[node name="Box" type="RigidBody2D" groups=["Box"]]
+input_pickable = true
+physics_material_override = SubResource("PhysicsMaterial_q8cfy")
+gravity_scale = 0.9
+can_sleep = false
+freeze = true
+script = ExtResource("1_jmass")
+smoke_speed_threshold = 100.0
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_s50vv")
+rotation = 0.0349066
+scale = Vector2(0.8, 0.8)
+texture = ExtResource("2_wrd5v")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-0.5, 0)
+shape = SubResource("RectangleShape2D_l454y")
+
+[node name="Timer_live" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+
+[node name="SmokeEmitter" type="GPUParticles2D" parent="."]
+amount = 3
+texture = ExtResource("4_4kerv")
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_tjbap")
+
+[connection signal="timeout" from="Timer_live" to="." method="_on_timer_live_timeout"]

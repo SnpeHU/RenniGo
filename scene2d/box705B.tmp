@@ -1,0 +1,37 @@
+[gd_scene load_steps=7 format=3 uid="uid://dfpaoxri17ee7"]
+
+[ext_resource type="Script" path="res://script/box_2d.gd" id="1_jmass"]
+[ext_resource type="Shader" path="res://shader/outline.gdshader" id="2_rfxy5"]
+[ext_resource type="Texture2D" uid="uid://cmjwsysdd53ge" path="res://art/箱子.png" id="2_wrd5v"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_q8cfy"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_5ytmy"]
+shader = ExtResource("2_rfxy5")
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_l454y"]
+size = Vector2(100, 60)
+
+[node name="Box" type="RigidBody2D" groups=["Box"]]
+input_pickable = true
+physics_material_override = SubResource("PhysicsMaterial_q8cfy")
+can_sleep = false
+freeze = true
+script = ExtResource("1_jmass")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_5ytmy")
+rotation = 0.0171887
+scale = Vector2(0.8, 0.8)
+texture = ExtResource("2_wrd5v")
+
+[node name="Timer_live" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
+position = Vector2(-0.5, 0)
+shape = SubResource("RectangleShape2D_l454y")
+
+[connection signal="timeout" from="Timer_live" to="." method="_on_timer_live_timeout"]

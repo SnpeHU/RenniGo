@@ -1,0 +1,30 @@
+[gd_scene load_steps=5 format=3 uid="uid://bm2jkoiwvmrux"]
+
+[ext_resource type="Texture2D" uid="uid://dk2f2ikb0yrh4" path="res://art/眼睛猫.png" id="1_fkieg"]
+[ext_resource type="Script" uid="uid://ba0yj4fb4ugp7" path="res://script/box_respawnser.gd" id="1_ygmvb"]
+[ext_resource type="PackedScene" uid="uid://dfpaoxri17ee7" path="res://scene2d/box2D.tscn" id="2_aras6"]
+[ext_resource type="Texture2D" uid="uid://cmjwsysdd53ge" path="res://art/箱子.png" id="2_krp3q"]
+
+[node name="Box_respawnser" type="Node2D" node_paths=PackedStringArray("center", "respawn_pos")]
+script = ExtResource("1_ygmvb")
+center = NodePath("Center")
+respawn_pos = NodePath("Respawn_point")
+box_prefab = ExtResource("2_aras6")
+
+[node name="Center" type="Node2D" parent="."]
+
+[node name="Respawn_point" type="Node2D" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="Respawn_point"]
+position = Vector2(0, -125)
+scale = Vector2(0.6, 0.6)
+texture = ExtResource("1_fkieg")
+
+[node name="箱子" type="Sprite2D" parent="."]
+visible = false
+scale = Vector2(0.8, 0.8)
+texture = ExtResource("2_krp3q")
+
+[node name="Timer_around" type="Timer" parent="."]
+wait_time = 5.0
+autostart = true

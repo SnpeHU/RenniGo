@@ -1,0 +1,9 @@
+[gd_scene format=3 uid="uid://c26tm6igixt8h"]
+
+[node name="BackGround" type="CanvasLayer"]
+
+[node name="ColorRect" type="ColorRect" parent="."]
+offset_right = 40.0
+offset_bottom = 40.0
+scale = Vector2(14.7407, 30.2213)
+color = Color(0.862745, 0.94902, 0.596078, 1)

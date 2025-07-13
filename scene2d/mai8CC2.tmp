@@ -1,0 +1,118 @@
+[gd_scene load_steps=13 format=3 uid="uid://dk4p3p1w225ee"]
+
+[ext_resource type="Script" path="res://script/main_2d.gd" id="1_ro3ow"]
+[ext_resource type="PackedScene" uid="uid://dfpaoxri17ee7" path="res://scene2d/box2D.tscn" id="2_dch5o"]
+[ext_resource type="Script" path="res://addons/phantom_camera/scripts/phantom_camera/phantom_camera_2d.gd" id="3_y0oci"]
+[ext_resource type="Script" path="res://addons/phantom_camera/scripts/resources/tween_resource.gd" id="4_nu0xv"]
+[ext_resource type="PackedScene" uid="uid://7gmnxromwc7s" path="res://scene2d/car.tscn" id="4_th2dw"]
+[ext_resource type="Script" path="res://addons/phantom_camera/scripts/phantom_camera_host/phantom_camera_host.gd" id="5_cavwn"]
+[ext_resource type="Texture2D" uid="uid://cq5qmi7ufwm7n" path="res://art/货车素材.png" id="7_cq0fd"]
+[ext_resource type="PackedScene" uid="uid://ci80sosebkb58" path="res://scene2d/main_ui.tscn" id="9_bew44"]
+
+[sub_resource type="Resource" id="Resource_ew46q"]
+script = ExtResource("4_nu0xv")
+duration = 2.0
+transition = 2
+ease = 2
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_6dkr8"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_0fgvr"]
+bounce = 0.24
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5lmx4"]
+size = Vector2(2000, 100)
+
+[node name="Main2D" type="Node2D" node_paths=PackedStringArray("boxs_node", "box_respwanser", "camera", "camera_follow")]
+script = ExtResource("1_ro3ow")
+box_prefab = ExtResource("2_dch5o")
+boxs_node = NodePath("Boxs")
+box_respwanser = NodePath("")
+camera = NodePath("PhantomCamera2D")
+camera_follow = NodePath("Camera_follow")
+follow_point_offset = 250.0
+
+[node name="HUD" parent="." instance=ExtResource("9_bew44")]
+
+[node name="ColorRect" type="ColorRect" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -483.0
+offset_top = -995.0
+offset_right = 517.0
+offset_bottom = 1005.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.446973, 0.546875, 0.39093, 1)
+
+[node name="ColorRect2" type="ColorRect" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -483.0
+offset_top = -2058.0
+offset_right = 517.0
+offset_bottom = -58.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.863908, 0.949219, 0.59697, 1)
+
+[node name="PhantomCamera2D" type="Node2D" parent="." node_paths=PackedStringArray("follow_target")]
+top_level = true
+script = ExtResource("3_y0oci")
+follow_mode = 2
+follow_target = NodePath("../Camera_follow")
+tween_resource = SubResource("Resource_ew46q")
+follow_damping = true
+dead_zone_height = 0.417
+show_viewfinder_in_play = true
+draw_limits = true
+limit_bottom = 780
+
+[node name="Camera2D" type="Camera2D" parent="."]
+limit_bottom = 780
+editor_draw_limits = true
+
+[node name="PhantomCameraHost" type="Node" parent="Camera2D"]
+process_priority = 300
+process_physics_priority = 300
+script = ExtResource("5_cavwn")
+
+[node name="BackGround" type="Node" parent="."]
+
+[node name="货车素材" type="Sprite2D" parent="BackGround"]
+position = Vector2(-123, 92)
+scale = Vector2(0.9, 0.9)
+texture = ExtResource("7_cq0fd")
+flip_h = true
+
+[node name="Boxs" type="Node2D" parent="."]
+position = Vector2(0, 460)
+
+[node name="Car" parent="Boxs" instance=ExtResource("4_th2dw")]
+
+[node name="RigidBody2D" parent="Boxs/Car" index="1" groups=["StaticBox"]]
+physics_material_override = SubResource("PhysicsMaterial_6dkr8")
+
+[node name="Camera_follow" type="Node2D" parent="."]
+
+[node name="Parallax2D" type="Parallax2D" parent="."]
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+position = Vector2(0, 545)
+collision_layer = 3
+collision_mask = 3
+physics_material_override = SubResource("PhysicsMaterial_0fgvr")
+metadata/_edit_group_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+shape = SubResource("RectangleShape2D_5lmx4")
+
+[connection signal="start_game" from="HUD" to="." method="new_game"]
+
+[editable path="Boxs/Car"]

@@ -1,0 +1,137 @@
+[gd_scene load_steps=6 format=3 uid="uid://bkrcak2hmxqd7"]
+
+[ext_resource type="Script" uid="uid://b0fsb6168j0r4" path="res://script/pause_menu.gd" id="1_f2jex"]
+[ext_resource type="Theme" uid="uid://cdpys4g3sl3io" path="res://art/UI/pause_theme.tres" id="2_f2jex"]
+[ext_resource type="Texture2D" uid="uid://cmfjenxhxhrad" path="res://art/UI/Buttons-pause.png" id="3_7vkw0"]
+[ext_resource type="Texture2D" uid="uid://b6jtcj2sj22t" path="res://art/UI/Buttons-pressed-pause.png" id="4_64qmu"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_71i0e"]
+font_size = 100
+font_color = Color(0.898438, 0.880616, 0.4422, 1)
+outline_size = 20
+
+[node name="UICanvasLayer" type="CanvasLayer" node_paths=PackedStringArray("pause_panel")]
+process_mode = 3
+layer = 2
+script = ExtResource("1_f2jex")
+pause_panel = NodePath("Control/PausePanel")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_f2jex")
+
+[node name="PauseButton" type="TextureButton" parent="Control"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -92.0
+offset_top = 23.0
+offset_right = -5.0
+offset_bottom = 118.0
+grow_horizontal = 0
+scale = Vector2(0.8, 0.8)
+focus_mode = 0
+texture_normal = ExtResource("3_7vkw0")
+texture_pressed = ExtResource("4_64qmu")
+texture_hover = ExtResource("3_7vkw0")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="PausePanel" type="Panel" parent="Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Resume" type="Button" parent="Control/PausePanel"]
+custom_minimum_size = Vector2(160, 100)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -176.0
+offset_top = 106.0
+offset_right = 176.0
+offset_bottom = 206.0
+grow_horizontal = 2
+grow_vertical = 2
+focus_mode = 0
+text = "返回游戏"
+icon_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Control/PausePanel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -185.0
+offset_top = -50.0
+offset_right = 185.0
+offset_bottom = 50.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_stretch_ratio = 0.0
+theme_override_constants/separation = 50
+alignment = 1
+
+[node name="Restart" type="Button" parent="Control/PausePanel/HBoxContainer"]
+custom_minimum_size = Vector2(160, 100)
+layout_mode = 2
+focus_mode = 0
+text = "重新开始"
+icon_alignment = 1
+
+[node name="Quit" type="Button" parent="Control/PausePanel/HBoxContainer"]
+custom_minimum_size = Vector2(160, 100)
+layout_mode = 2
+focus_mode = 0
+text = "退出"
+icon_alignment = 1
+
+[node name="CenterContainer" type="CenterContainer" parent="Control"]
+visible = false
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -270.0
+offset_top = -300.0
+offset_right = 270.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="MainButtons" type="VBoxContainer" parent="Control/CenterContainer"]
+layout_mode = 2
+
+[node name="Start" type="Button" parent="Control/CenterContainer/MainButtons"]
+custom_minimum_size = Vector2(200, 80)
+layout_mode = 2
+text = "开始游戏"
+icon_alignment = 1
+
+[node name="Title" type="Label" parent="."]
+visible = false
+offset_right = 540.0
+offset_bottom = 300.0
+text = "游戏名"
+label_settings = SubResource("LabelSettings_71i0e")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[connection signal="pressed" from="Control/PauseButton" to="." method="pause"]
+[connection signal="pressed" from="Control/PausePanel/Resume" to="." method="unpause"]
+[connection signal="pressed" from="Control/PausePanel/HBoxContainer/Quit" to="." method="quit_game"]
