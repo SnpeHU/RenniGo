@@ -13,3 +13,8 @@ follow_viewport_enabled = true
 [node name="Main2D" parent="GameLayer" instance=ExtResource("2_re5xi")]
 
 [node name="UICanvasLayer" parent="." instance=ExtResource("3_ewfs3")]
+
+[connection signal="pressed" from="UICanvasLayer/Control/PausePanel/HBoxContainer/Restart" to="GameLayer/Main2D" method="reset_to_ready"]
+[connection signal="pressed" from="UICanvasLayer/Control/PausePanel/HBoxContainer/Restart" to="UICanvasLayer" method="unpause"]
+
+[editable path="UICanvasLayer"]

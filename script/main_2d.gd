@@ -22,6 +22,7 @@ var score:int = 0
 @onready var coin_emitter:Control = $HUD/CoinParticle ##金币粒子生成器
 
 #TODO 重置游戏
+
 enum GameState {
 	READY,
 	PLAYING,
@@ -188,9 +189,11 @@ func on_coins_collected():
 	$HUD.set_score(score)
 
 func _on_box_falldown():
-	box_respwanser.create_box_at_respawn_pos()
-	score -= 20
-	$HUD.update_data(box_count,score)
+	if( current_state == GameState.PLAYING):
+		if(box_respwanser):
+			box_respwanser.create_box_at_respawn_pos()
+		score -= 20
+		$HUD.update_data(box_count,score)
 	
 
 func init_respawnser() -> void:
