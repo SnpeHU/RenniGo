@@ -115,7 +115,7 @@ func on_ready_state() -> void:
 	# 初始化游戏数据
 	reset_data()
 	#TODO 显示准备界面提示
-	hud.show_hint("点击开始游戏")  # 显示提示信息
+	hud.show_center_container("点击开始游戏")  # 显示提示信息
 
 
 # 游戏进行状态处理
@@ -125,7 +125,7 @@ func on_playing_state() -> void:
 	init_respawnser()
 	
 	#TODO 隐藏准备界面，显示游戏UI
-	hud.clear_hint()   # 隐藏提示信息
+	hud.clear_center_container()   # 隐藏提示信息
 
 # 游戏结束状态处理
 func on_game_over_state() -> void:
@@ -133,6 +133,8 @@ func on_game_over_state() -> void:
 	if box_respwanser:
 		box_respwanser.set_process(false)
 		box_respwanser.set_physics_process(false)	
+	
+
 
 	#TODO 显示游戏结束界面，显示分数等信息
 
@@ -146,6 +148,9 @@ func check_game_over_conditions() -> bool:
 
 #TODO 清空数据
 func reset_data():
+	#记录分数
+	Data	.high = score
+	SaveLoad.save()
 	box_count = 0
 	score = 0
 	$HUD.update_data(box_count,score)

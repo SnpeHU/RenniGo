@@ -18,6 +18,8 @@ config/windows_native_icon="res://art/icon.ico"
 [autoload]
 
 PhantomCameraManager="*res://addons/phantom_camera/scripts/managers/phantom_camera_manager.gd"
+Data="*res://scene2d/global_scene/data.tscn"
+SaveLoad="*res://scene2d/global_scene/save_load.tscn"
 
 [display]
 

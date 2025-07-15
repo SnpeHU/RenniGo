@@ -1,11 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://balvpwn1xlvf5"]
+[gd_scene load_steps=3 format=3 uid="uid://balvpwn1xlvf5"]
 
-[ext_resource type="Script" uid="uid://dqp2jlww77emk" path="res://script/manager.gd" id="1_5sftd"]
 [ext_resource type="PackedScene" uid="uid://dk4p3p1w225ee" path="res://scene2d/main2d.tscn" id="2_re5xi"]
 [ext_resource type="PackedScene" uid="uid://bkrcak2hmxqd7" path="res://scene2d/ui_canvas_layer.tscn" id="3_ewfs3"]
 
 [node name="Game" type="Node"]
-script = ExtResource("1_5sftd")
 
 [node name="GameLayer" type="CanvasLayer" parent="."]
 follow_viewport_enabled = true
