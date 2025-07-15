@@ -2,7 +2,7 @@ extends Node2D
 
 @export var center: Node2D
 @export var respawn_pos: Node2D
-@export var box_prefab: PackedScene #盒子预制体
+@export var box_prefab: PackedScene = preload("res://scene2d/box2D.tscn") #盒子预制体
 
 @export var inertia_factor: float = 1.0 #惯性系数，可以调节速度传递的强度
 
@@ -10,7 +10,8 @@ extends Node2D
 @export var radiusY: float = 100.0
 var timer_around #旋转计时器
 
-var box_hold:Node2D#暂存新生成的box
+var box_hold:Box#暂存新生成的box
+var boxs_holder:Node2D#放下盒子后盒子将被放入此节点下
 var previous_position: Vector2 #前一帧位置，用于计算速度
 var current_velocity: Vector2 #当前速度
 
@@ -19,13 +20,11 @@ var current_velocity: Vector2 #当前速度
 @export var distance_to_topbox = 500 #距离顶部盒子的距离
 var move_target: Vector2 
 
-signal update_current_box(current_box:Node2D, velocity:Vector2)
+#signal update_current_box(current_box:Node2D, velocity:Vector2)
+signal create_box(new_box:Box)
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	
-	if(box_prefab == null):
-		box_prefab = preload("res://scene2d/box2D.tscn") #预加载盒子预制体
 	
 	timer_around = $Timer_around
 	# 初始化位置用于速度计算
@@ -54,17 +53,23 @@ func create_box_at_respawn_pos():
 	var box_instance = box_prefab.instantiate()
 	if box_instance == null:
 		return
-	#box_instance.set_top_box(_top_box)
+	box_instance.is_beheld = true
 	respawn_pos.add_child(box_instance)
 	box_hold = box_instance
+	
+	create_box.emit(box_hold)
 
 #放下盒子
 func put_box_down():
 	var applied_velocity = current_velocity * inertia_factor
-	update_current_box.emit(box_hold, applied_velocity)
-
+	# 应用惯性速度
+	box_hold.linear_velocity = applied_velocity
+	box_hold.set_deferred("freeze", false)
+	#update_current_box.emit(box_hold)
+	box_hold.reparent(boxs_holder)
 	box_hold.put()
 	box_hold = null
+	#print("Current box updated to: ", new_current_box.name, " with velocity: ", velocity)
 
 #调整与顶部盒子的距离
 func update_move_target(target:Vector2):

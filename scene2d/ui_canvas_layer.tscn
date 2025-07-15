@@ -25,6 +25,15 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("2_f2jex")
 
+[node name="MainButton" type="Button" parent="Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+flat = true
+
 [node name="PauseButton" type="TextureButton" parent="Control"]
 layout_mode = 1
 anchors_preset = 1

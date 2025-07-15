@@ -1,8 +1,10 @@
 extends RigidBody2D
+class_name Box
 
 #成功时发出的信号，更新top_box,分数等信息
-signal box_stabilized(box: Node2D)
-var top_box: Node2D#当前需要判定的盒子
+signal box_stabilized(box: Box)
+const score:int = 100#分数
+var top_box: Box#当前需要判定的盒子
 
 #状态标记
 var is_frozen: bool = false## 添加冻结状态标记
@@ -50,7 +52,6 @@ func _on_box_body_entered(body: Node) -> void:
 			freeze_body()
 			# 使用 call_deferred 延迟发送信号
 			call_deferred("emit_signal", "box_stabilized", self)
-			#box_stabilized.emit(self)
 	create_smoke_effect()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -58,9 +59,7 @@ func _process(delta: float) -> void:
 	if is_frozen:
 		return
 	pre_position = self.global_position
-	
 		
-	
 func freeze_body():
 	# 设置冻结标记
 	is_frozen = true
@@ -74,8 +73,9 @@ func freeze_body():
 	# 延迟关闭碰撞监听，防止重复触发
 	call_deferred("set_contact_monitor", false)
 	
-func set_top_box(box:Node2D):
+func set_top_box(box:Box):
 	top_box = box
+	#print("Top box updated")
 
 #盒子稳定性判断
 func check_stability(body: Node) -> bool:
@@ -145,7 +145,6 @@ func _on_timer_live_timeout() -> void:
 	
 	# 闪烁结束后执行主消失动画
 	flicker_tween.tween_callback(Callable(self, "_start_disappear_animation"))
-	
 	
 func _start_disappear_animation() -> void:
 	var tween = create_tween()

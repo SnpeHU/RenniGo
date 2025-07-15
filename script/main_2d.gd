@@ -1,3 +1,4 @@
+class_name Level
 extends Node2D
 
 @export var box_prefab: PackedScene  = preload("res://scene2d/box2D.tscn")#盒子预制体
@@ -7,34 +8,38 @@ extends Node2D
 var box_respwanser: Node2D#搬运猫
 @export var respwanser_initial_pos: Vector2#
 
-@onready var car:Node2D = $Boxs/Car
-@export var car_box: Node2D
-@export var top_box: Node2D #最顶上的盒子，即需要与坠落的盒子判定的盒子，最初为Car
-var current_box: Node2D;#坠落中的盒子
-
+#摄像机
 @export var camera: PhantomCamera2D
 @export var camera_follow :Node2D ##相机跟随节点
 @export var follow_point_offset:float  = 200##与顶部盒子y坐标的偏移量
+
+#游戏逻辑
+@onready var car:Node2D = $Boxs/Car
+@export var car_box: Box
+@export var top_box:Box #最顶上的盒子，即需要与坠落的盒子判定的盒子，最初为Car
+@onready var main_button:Button = $"../../UICanvasLayer/Control/MainButton"##控制游戏进程
+signal update_top_box(top_box:Box)
 
 #TODO 分数计算，完美，优秀。。
 var box_count:int = 0
 var score:int = 0
 @onready var coin_emitter:Control = $HUD/CoinParticle ##金币粒子生成器
 
-#TODO 重置游戏
-
+#游戏状态
 enum GameState {
 	READY,
 	PLAYING,
 	GAME_OVER 
 }
-var current_state: GameState = GameState.READY # 初始状态为准备状态
+var current_state: GameState # 初始状态为准备状态
+@onready var hud:CanvasLayer = $HUD
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:		
 	car_box = $Boxs/Car/RigidBody2D
 	top_box = $Boxs/Car/RigidBody2D
-	
+	main_button.pressed.connect(_on_mainbutton_pressed)
+	reset_to_ready()
 	#初始化盒子出生的
 	#init_respawnser()
 	# 初始化为准备状态
@@ -44,30 +49,44 @@ func _process(delta: float) -> void:
 	
 	pass
 
+
+
 func _input(event: InputEvent) -> void:
 	
 	match current_state:
 		GameState.READY:
+			pass
 			# 准备状态下，按任意键开始游戏
-			if event.is_action_pressed("put_down"):
-				start_game()
+			#if event.is_action_pressed("put_down"):
+				#start_game()
 		GameState.PLAYING:
 			# 游戏进行中的输入处理
-			if event.is_action_pressed("put_down"):
-				if box_respwanser and box_respwanser.box_hold:
-					box_respwanser.put_box_down()
-			
+			#if event.is_action_pressed("put_down"):
+				#if box_respwanser and box_respwanser.box_hold:
+					#box_respwanser.put_box_down()
 			if event.is_action_pressed("reset_game"):
 				game_over()
 		GameState.GAME_OVER:
+			pass
 			# 结束状态下，按任意键重置游戏
-			if event.is_action_pressed("put_down"):
-				reset_to_ready()
+			#if event.is_action_pressed("put_down"):
+				#reset_to_ready()
 
 	
 	#按R键重置游戏
 	#if event.is_action_pressed("reset_game"):
 		#reset()
+
+func _on_mainbutton_pressed() -> void:
+	match current_state:
+		GameState.READY:
+			start_game()
+		GameState.PLAYING:
+			if box_respwanser and box_respwanser.box_hold:
+				box_respwanser.put_box_down()
+		GameState.GAME_OVER:
+			reset_to_ready()
+
 
 # 设置游戏状态
 func set_game_state(new_state: GameState) -> void:
@@ -96,6 +115,7 @@ func on_ready_state() -> void:
 	# 初始化游戏数据
 	reset_data()
 	#TODO 显示准备界面提示
+	hud.show_hint("点击开始游戏")  # 显示提示信息
 
 
 # 游戏进行状态处理
@@ -105,6 +125,7 @@ func on_playing_state() -> void:
 	init_respawnser()
 	
 	#TODO 隐藏准备界面，显示游戏UI
+	hud.clear_hint()   # 隐藏提示信息
 
 # 游戏结束状态处理
 func on_game_over_state() -> void:
@@ -142,29 +163,16 @@ func game_over() -> void:
 func reset_to_ready() -> void:
 	set_game_state(GameState.READY)	
 
-# 释放盒子时，更新current_box
-func _on_update_current_box(new_current_box:Node2D, velocity:Vector2):
-	current_box = new_current_box
-	#设置当前盒子需要判定的盒子
-	current_box.set_top_box(top_box)
-	current_box.reparent(boxs_node)
-	current_box.set_deferred("freeze", false)
-	
-	# 应用惯性速度
-	if current_box is RigidBody2D:
-		current_box.linear_velocity = velocity
-	elif current_box.has_method("set_linear_velocity"):
-		current_box.set_linear_velocity(velocity)
-	
-	#连接盒子的信号
-	current_box.box_stabilized.connect(_on_box_stabilized)
-	current_box.live_timer.timeout.connect(_on_box_falldown)
-	
-	print("Current box updated to: ", new_current_box.name, " with velocity: ", velocity)
+
 
 # 当盒子成功下落时，更新top_box,更新摄像机跟随点,分数。。
-func _on_box_stabilized(new_top_box: Node2D):
+func _on_box_stabilized(new_top_box: Box):
 	top_box = new_top_box
+	update_top_box.emit(top_box)
+	#断开连接
+	if(update_top_box.is_connected(top_box.set_top_box)):
+		update_top_box.disconnect(top_box.set_top_box)
+	
 	#重设父节点为car内的boxs节点
 	top_box.reparent($Boxs/Car/Boxs)
 	
@@ -172,11 +180,11 @@ func _on_box_stabilized(new_top_box: Node2D):
 	box_respwanser.update_move_target(top_box.global_position)
 	#更新分数
 	box_count += 1
-	score += 100
+	score += new_top_box.score
 	$HUD.set_count(box_count)
 	#以top_box在摄像机上的位置为中心发射金币
 	var screen_pos = top_box.get_global_transform_with_canvas().get_origin()
-	var coin_count = 100/20
+	var coin_count = new_top_box.score/20
 	coin_emitter.emit_coin(screen_pos, coin_count,Callable(self, "on_coins_collected"))
 		
 
@@ -185,8 +193,6 @@ func _on_box_stabilized(new_top_box: Node2D):
 		camera_follow.global_position.y = top_box.global_position.y - follow_point_offset
 	#print("Top box updated to: ", new_top_box.name)
 
-func on_coins_collected():
-	$HUD.set_score(score)
 
 func _on_box_falldown():
 	if( current_state == GameState.PLAYING):
@@ -194,7 +200,22 @@ func _on_box_falldown():
 			box_respwanser.create_box_at_respawn_pos()
 		score -= 20
 		$HUD.update_data(box_count,score)
+
+func on_coins_collected():
+	$HUD.set_score(score)
+
+# 生成新盒子时，更新
+func _on_create_box(new_box:Box):
+	#current_box = new_current_box
+	#设置当前盒子需要判定的盒子
+	new_box.set_top_box(top_box)	
+	#连接盒子的信号
+	new_box.box_stabilized.connect(_on_box_stabilized)
+	new_box.live_timer.timeout.connect(_on_box_falldown)
 	
+	update_top_box.connect(new_box.set_top_box)
+	
+
 
 func init_respawnser() -> void:
 	if(box_respwanser != null):
@@ -203,7 +224,9 @@ func init_respawnser() -> void:
 	box_respwanser = box_respawnser_prefab.instantiate()
 	add_child(box_respwanser)
 	box_respwanser.global_position = respwanser_initial_pos
-	box_respwanser.update_current_box.connect(_on_update_current_box)
+	box_respwanser.boxs_holder = boxs_node
+	#box_respwanser.update_current_box.connect(_on_update_current_box)
+	box_respwanser.create_box.connect(_on_create_box)
 	box_respwanser.create_box_at_respawn_pos()
 	box_respwanser.update_move_target(car.global_position)
 
@@ -216,9 +239,6 @@ func reset()->void:
 	# 重置top_box为初始状态（car）
 	if car_box != null:
 		top_box = car_box
-	
-	# 重置current_box
-	current_box = null
 	
 	# 重置相机位置
 	if camera_follow != null:

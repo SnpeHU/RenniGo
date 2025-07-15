@@ -1,9 +1,18 @@
-[gd_scene load_steps=5 format=3 uid="uid://ci80sosebkb58"]
+[gd_scene load_steps=7 format=3 uid="uid://ci80sosebkb58"]
 
-[ext_resource type="Script" uid="uid://pvuvf58ta43" path="res://script/main_ui.gd" id="1_hxvcr"]
+[ext_resource type="Script" uid="uid://pvuvf58ta43" path="res://script/main_hud.gd" id="1_hxvcr"]
 [ext_resource type="Texture2D" uid="uid://cmjwsysdd53ge" path="res://art/箱子.png" id="2_bur13"]
 [ext_resource type="Texture2D" uid="uid://c6ht1jw135hhk" path="res://art/猫金币.png" id="2_jowk0"]
 [ext_resource type="Script" uid="uid://bvebgtnjecdmd" path="res://script/coin_particle.gd" id="4_o3rbf"]
+
+[sub_resource type="FontVariation" id="FontVariation_vdn6t"]
+spacing_glyph = 20
+
+[sub_resource type="LabelSettings" id="LabelSettings_vdn6t"]
+font = SubResource("FontVariation_vdn6t")
+font_size = 32
+outline_size = 15
+outline_color = Color(0.43677, 0.54, 0.3402, 1)
 
 [node name="HUD" type="CanvasLayer"]
 script = ExtResource("1_hxvcr")
@@ -108,3 +117,19 @@ theme_override_font_sizes/font_size = 30
 text = "0"
 horizontal_alignment = 2
 vertical_alignment = 1
+
+[node name="Hint" type="Label" parent="UI"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -119.0
+offset_top = -23.0
+offset_right = 119.0
+offset_bottom = 22.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "点击开始游戏"
+label_settings = SubResource("LabelSettings_vdn6t")
