@@ -1,13 +1,11 @@
-[gd_scene load_steps=14 format=3 uid="uid://dk4p3p1w225ee"]
+[gd_scene load_steps=12 format=3 uid="uid://dk4p3p1w225ee"]
 
 [ext_resource type="Script" uid="uid://e5s7ai5oay6h" path="res://script/main_2d.gd" id="1_ro3ow"]
 [ext_resource type="Script" uid="uid://bhexx6mj1xv3q" path="res://addons/phantom_camera/scripts/phantom_camera/phantom_camera_2d.gd" id="3_y0oci"]
 [ext_resource type="Script" uid="uid://8umksf8e80fw" path="res://addons/phantom_camera/scripts/resources/tween_resource.gd" id="4_nu0xv"]
 [ext_resource type="PackedScene" uid="uid://7gmnxromwc7s" path="res://scene2d/car.tscn" id="4_th2dw"]
 [ext_resource type="Script" uid="uid://bd046eokvcnu2" path="res://addons/phantom_camera/scripts/phantom_camera_host/phantom_camera_host.gd" id="5_cavwn"]
-[ext_resource type="Texture2D" uid="uid://bwv74w3mmqcvs" path="res://art/farCity.png" id="6_ykxns"]
 [ext_resource type="Texture2D" uid="uid://cq5qmi7ufwm7n" path="res://art/货车素材.png" id="7_cq0fd"]
-[ext_resource type="Texture2D" uid="uid://cyk3h3jgrsqxr" path="res://art/nearCity.png" id="7_rs111"]
 [ext_resource type="PackedScene" uid="uid://ci80sosebkb58" path="res://scene2d/main_hud.tscn" id="9_bew44"]
 
 [sub_resource type="Resource" id="Resource_n44gk"]
@@ -94,7 +92,6 @@ scroll_offset = Vector2(-549, -1220)
 [node name="Sprite2D" type="Sprite2D" parent="BackGround/BackBuilding"]
 position = Vector2(0, -516)
 scale = Vector2(2, 2)
-texture = ExtResource("6_ykxns")
 centered = false
 
 [node name="FrontBuilding" type="Parallax2D" parent="BackGround"]
@@ -104,13 +101,6 @@ scroll_offset = Vector2(-688, -982)
 [node name="Sprite2D" type="Sprite2D" parent="BackGround/FrontBuilding"]
 position = Vector2(94, 201)
 scale = Vector2(1.645, 1.645)
-texture = ExtResource("7_rs111")
-centered = false
-
-[node name="Sprite2D2" type="Sprite2D" parent="BackGround/FrontBuilding"]
-position = Vector2(94, 201)
-scale = Vector2(1.645, 1.645)
-texture = ExtResource("7_rs111")
 centered = false
 
 [node name="货车素材" type="Sprite2D" parent="BackGround"]
