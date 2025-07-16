@@ -44,9 +44,9 @@ rotation = -0.0014164
 [node name="Left_top" type="VBoxContainer" parent="UI"]
 layout_mode = 1
 offset_left = 50.0
-offset_top = 50.0
-offset_right = 150.0
-offset_bottom = 200.0
+offset_top = 25.0
+offset_right = 160.0
+offset_bottom = 175.0
 size_flags_vertical = 4
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="UI/Left_top"]

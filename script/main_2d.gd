@@ -20,7 +20,7 @@ var box_respwanser: Node2D#搬运猫
 @onready var main_button:Button = $"../../UICanvasLayer/Control/MainButton"##控制游戏进程
 signal update_top_box(top_box:Box)
 
-#TODO 分数计算，完美，优秀。。
+#TODO 分数计算，完美，优秀。连击，倒计时
 var box_count:int = 0
 var score:int = 0
 @onready var coin_emitter:Control = $HUD/CoinParticle ##金币粒子生成器
@@ -38,7 +38,8 @@ var current_state: GameState # 初始状态为准备状态
 func _ready() -> void:		
 	car_box = $Boxs/Car/RigidBody2D
 	top_box = $Boxs/Car/RigidBody2D
-	main_button.pressed.connect(_on_mainbutton_pressed)
+	if(main_button):
+		main_button.pressed.connect(_on_mainbutton_pressed)
 	reset_to_ready()
 	#初始化盒子出生的
 	#init_respawnser()
