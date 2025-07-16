@@ -102,7 +102,13 @@ scroll_scale = Vector2(0.625, 0.625)
 scroll_offset = Vector2(-688, -982)
 
 [node name="Sprite2D" type="Sprite2D" parent="BackGround/FrontBuilding"]
-position = Vector2(94, 204)
+position = Vector2(94, 201)
+scale = Vector2(1.645, 1.645)
+texture = ExtResource("7_rs111")
+centered = false
+
+[node name="Sprite2D2" type="Sprite2D" parent="BackGround/FrontBuilding"]
+position = Vector2(94, 201)
 scale = Vector2(1.645, 1.645)
 texture = ExtResource("7_rs111")
 centered = false
