@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://b3lk6q8uk8m6v"]
+
+[ext_resource type="Script" uid="uid://b4e2exd5rkcbm" path="res://scene2d/global_scene/global_mediator.gd" id="1_bipig"]
+
+[node name="GlobalMediator" type="Node"]
+script = ExtResource("1_bipig")

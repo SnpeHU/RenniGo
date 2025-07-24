@@ -40,5 +40,5 @@ func emit_coin(pos:Vector2,coin_count: int,callback:Callable = Callable()):
 			tween.tween_callback(callback)
 
 		# 最后一个金币发信号
-		if i == coin_count - 1:
-			tween.tween_callback(Callable(self, "emit_signal").bind("all_coins_collected"))
+		#if i == coin_count - 1:
+		#	tween.tween_callback(Callable(self, "emit_signal").bind("all_coins_collected"))

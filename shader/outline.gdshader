@@ -2,7 +2,7 @@ shader_type canvas_item;
 uniform float outline_width = 5;
 uniform float alpha : hint_range(0.0, 1.0) = 1.0;
 uniform vec4 outline_color : source_color= vec4(0,0,0,1);
-uniform bool enable_outline = true;
+uniform bool enable_outline = false;
 
 //pulse_speed: 控制脉动速度，值越大变化越快
 //min_alpha: 透明度的最小值
@@ -36,10 +36,10 @@ void fragment() {
     outline.a = outline_color.a * time_alpha * clamp(outline.a, 0.0, 1.0);
 	COLOR = mix(outline, original_color, original_color.a);
 	}else{
-		original_color.a *= alpha; 
+		original_color.a *= alpha;
 		COLOR = original_color;
 	}
-	
+
 }
 
 //void light() {

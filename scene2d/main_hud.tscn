@@ -41,6 +41,14 @@ grow_horizontal = 2
 grow_vertical = 2
 rotation = -0.0014164
 
+[node name="GameTimerBar" type="TextureProgressBar" parent="UI"]
+layout_mode = 1
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_right = 48.0
+grow_vertical = 2
+fill_mode = 2
+
 [node name="Left_top" type="VBoxContainer" parent="UI"]
 layout_mode = 1
 offset_left = 50.0
@@ -125,6 +133,7 @@ horizontal_alignment = 2
 vertical_alignment = 1
 
 [node name="CenterHint" type="VBoxContainer" parent="UI"]
+visible = false
 layout_mode = 1
 anchors_preset = 14
 anchor_top = 0.5
@@ -153,3 +162,27 @@ label_settings = SubResource("LabelSettings_1ltgb")
 [node name="HighScore" type="Label" parent="UI/CenterHint/HBoxContainer"]
 layout_mode = 2
 label_settings = SubResource("LabelSettings_1ltgb")
+
+[node name="GameProgressBar" type="ProgressBar" parent="UI"]
+visible = false
+layout_mode = 1
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_right = 4.0
+grow_vertical = 2
+scale = Vector2(10.9185, 1)
+value = 200.0
+allow_greater = true
+fill_mode = 3
+show_percentage = false
+
+[node name="TextureProgressBar" type="TextureProgressBar" parent="UI"]
+layout_mode = 1
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_right = 1.0
+grow_vertical = 2
+scale = Vector2(33.6369, 1)
+value = 100.0
+allow_greater = true
+fill_mode = 3

@@ -1,12 +1,15 @@
 extends CanvasLayer
 
-signal start_game
-
+#signal start_game
+class_name MainHUD
 @onready var count:Label = $UI/Left_top/HBoxContainer2/Count
 @onready var score:Label = $UI/Left_top/HBoxContainer/Score
 @onready var center_container:Control = $UI/CenterHint
 @onready var hint:Label = $UI/CenterHint/Hint_text
 @onready var high_score:Label = $UI/CenterHint/HBoxContainer/HighScore
+@onready var game_timer_bar:Control =$UI/TextureProgressBar #$UI/GameProgressBar
+@onready var coin_particle:CoinParitcle = $CoinParticle
+
 
 var tween: Tween
 var pulse_tween: Tween
@@ -17,14 +20,12 @@ var pulse_max_alpha: float = 1.0  # 脉冲最大透明度
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	GlobalMediator.HUD = self
+	visible = true
 	tween = create_tween()
 	tween.kill()  # 初始化时停止tween
 	pulse_tween = create_tween()
 	pulse_tween.kill()  # 初始化时停止脉冲tween
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
 
 
 func update_data(count_value, score_value):
@@ -38,9 +39,15 @@ func set_count(count_value):
 
 func set_score(score_value):
 	score.text = "%d" % score_value
+	set_high_score()
 
 func set_high_score():
 	high_score.text = "%d" % Data.high
+	
+func set_bar_value(_value:float):
+	game_timer_bar.value = _value
+
+
 
 
 

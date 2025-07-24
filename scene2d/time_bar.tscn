@@ -1,0 +1,37 @@
+[gd_scene load_steps=4 format=3 uid="uid://dxno7mjod2kvn"]
+
+[ext_resource type="Texture2D" uid="uid://buerivbvqs8cy" path="res://art/UI/base.png" id="1_58qtx"]
+[ext_resource type="Shader" uid="uid://y5ckmr3rrgks" path="res://shader/bar.gdshader" id="1_lav74"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_koyhn"]
+shader = ExtResource("1_lav74")
+shader_parameter/progress = 0.98
+shader_parameter/background_color = Color(0.38, 0.38, 0.38, 0)
+shader_parameter/color_gradient = ExtResource("1_58qtx")
+shader_parameter/wave_amplitude = 0.017
+shader_parameter/wave_frequency = 5.632
+shader_parameter/wave_speed = 3.309
+shader_parameter/particle_speed = 0.073
+shader_parameter/particle_lifetime = 3.0
+shader_parameter/particle_softness = 0.001
+shader_parameter/particle_spacing = 0.1
+shader_parameter/particle_offset = Vector2(-0.02, 0)
+shader_parameter/particle_start_scale = Vector2(0.02, 0.23)
+shader_parameter/particle_end_scale = Vector2(0.01, 0.04)
+shader_parameter/particle_scale_randomness = 0.5
+shader_parameter/particle_amount = 20
+
+[node name="TimeBar" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TextureRect" type="TextureRect" parent="."]
+material = SubResource("ShaderMaterial_koyhn")
+layout_mode = 1
+offset_right = 353.0
+offset_bottom = 73.0
+texture = ExtResource("1_58qtx")

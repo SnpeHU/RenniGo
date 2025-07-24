@@ -4,15 +4,6 @@ extends Node2D
 @export var move_duration: float = 2.0  # 移动持续时间
 @onready var boxs:Node2D = $Boxs
 
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	pass # Replace with function body.
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
-
 
 func _on_timer_timeout() -> void:
 	# 在x轴原点周围随机选择一个位置
@@ -30,8 +21,8 @@ func _on_timer_timeout() -> void:
 func clear_box() -> void:
 	
 	for child in boxs.get_children():
-		if child.has_method("_start_disappear_animation"):
-			child._start_disappear_animation()
+		if child.has_method("start_disappear_animation"):
+			child.start_disappear_animation()
 		else:
 			child.queue_free()
 		

@@ -61,6 +61,9 @@ func create_box_at_respawn_pos():
 
 #放下盒子
 func put_box_down():
+	if(!box_hold.is_ready):
+		return
+		
 	var applied_velocity = current_velocity * inertia_factor
 	# 应用惯性速度
 	box_hold.linear_velocity = applied_velocity
@@ -69,6 +72,9 @@ func put_box_down():
 	box_hold.reparent(boxs_holder)
 	box_hold.put()
 	box_hold = null
+	
+	#创建新盒子
+	create_box_at_respawn_pos()
 	#print("Current box updated to: ", new_current_box.name, " with velocity: ", velocity)
 
 #调整与顶部盒子的距离

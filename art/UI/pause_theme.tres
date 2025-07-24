@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=6 format=3 uid="uid://cdpys4g3sl3io"]
+[gd_resource type="Theme" load_steps=7 format=3 uid="uid://cdpys4g3sl3io"]
 
 [ext_resource type="Texture2D" uid="uid://v1c5ymu5r8um" path="res://art/UI/Clear-Button.png" id="1_mgxl0"]
 [ext_resource type="Texture2D" uid="uid://bp1h52dhtrm50" path="res://art/UI/Clear-Press-button.png" id="2_4rw40"]
@@ -24,6 +24,8 @@ texture_margin_top = 24.0
 texture_margin_right = 24.0
 texture_margin_bottom = 24.0
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mgxl0"]
+
 [resource]
 default_font_size = 24
 Button/colors/font_color = Color(0.243137, 0.192157, 0.239216, 1)
@@ -32,3 +34,4 @@ Button/colors/font_pressed_color = Color(0.215686, 0.215686, 0.215686, 1)
 Button/styles/hover = SubResource("StyleBoxTexture_mgwd7")
 Button/styles/normal = SubResource("StyleBoxTexture_jgpj5")
 Button/styles/pressed = SubResource("StyleBoxTexture_y1kom")
+ProgressBar/styles/background = SubResource("StyleBoxFlat_mgxl0")
