@@ -52,18 +52,13 @@ func _input(event: InputEvent) -> void:
 	match current_state:
 		GameState.READY:
 			pass
-			# 准备状态下，按任意键开始游戏
-			#if event.is_action_pressed("put_down"):
-				#start_game()
+
 		GameState.PLAYING:
 			# 游戏进行中的输入处理
 			if event.is_action_pressed("reset_game"):
 				game_over()
 		GameState.GAME_OVER:
 			pass
-			# 结束状态下，按任意键重置游戏
-			#if event.is_action_pressed("put_down"):
-				#reset_to_ready()
 
 func _on_mainbutton_pressed() -> void:
 	match current_state:
@@ -108,8 +103,8 @@ func on_ready_state() -> void:
 	reset()
 	# 初始化游戏数据
 	level_data_manager.reset_data()
-	#TODO 显示准备界面提示
-	hud.show_center_container("点击开始游戏")  # 显示提示信息
+	#显示准备界面提示
+	hud.on_ready_state()
 
 
 # 游戏进行状态处理
@@ -121,7 +116,7 @@ func on_playing_state() -> void:
 	game_timer.start()
 	
 	#隐藏准备界面，显示游戏UI
-	hud.clear_center_container()   # 隐藏提示信息
+	hud.on_playing_state()
 
 # 游戏结束状态处理
 func on_game_over_state() -> void:
@@ -134,6 +129,7 @@ func on_game_over_state() -> void:
 	game_timer.stop()
 
 	#TODO 显示游戏结束界面，显示分数等信息
+	hud.on_game_over_state()
 
 # 当盒子成功下落时，更新top_box,更新摄像机跟随点,分数。。
 func _on_box_stabilized(new_top_box: Box):

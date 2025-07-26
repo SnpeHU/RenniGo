@@ -2,13 +2,16 @@ extends CanvasLayer
 
 #signal start_game
 class_name MainHUD
-@onready var count:Label = $UI/Left_top/HBoxContainer2/Count
-@onready var score:Label = $UI/Left_top/HBoxContainer/Score
-@onready var center_container:Control = $UI/CenterHint
+@onready var count:Label = $UI/Left_top/Data/CountContainer/Count
+@onready var score:Label = $UI/Left_top/Data/ScoreContainer/Score
 @onready var hint:Label = $UI/CenterHint/Hint_text
 @onready var high_score:Label = $UI/CenterHint/HBoxContainer/HighScore
-@onready var game_timer_bar:Control =$UI/TextureProgressBar #$UI/GameProgressBar
+@onready var game_timer_bar:Control = $UI/Left_top/TextureProgressBar
 @onready var coin_particle:CoinParitcle = $CoinParticle
+
+@onready var center_container:Control = $UI/CenterHint
+@onready var title:TextureRect = $UI/Title
+@onready var left_top:Control = $UI/Left_top
 
 
 var tween: Tween
@@ -21,11 +24,6 @@ var pulse_max_alpha: float = 1.0  # 脉冲最大透明度
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	GlobalMediator.HUD = self
-	visible = true
-	tween = create_tween()
-	tween.kill()  # 初始化时停止tween
-	pulse_tween = create_tween()
-	pulse_tween.kill()  # 初始化时停止脉冲tween
 
 
 func update_data(count_value, score_value):
@@ -47,11 +45,22 @@ func set_high_score():
 func set_bar_value(_value:float):
 	game_timer_bar.value = _value
 
+func on_ready_state()-> void:
+	show_center_container("点击开始游戏")
+	TweenCollect.appear_animation_control(title)
+	hide_with_fade(left_top)
+
+func on_playing_state()->void:
+	hide_with_fade(center_container)
+	hide_with_fade(title)
+	TweenCollect.appear_animation_control(left_top)
+	
+func on_game_over_state()->void:
+	show_center_container("游戏结束")
 
 
 
-
-# 显示hint并播放渐入动画
+# 显示并播放渐入动画
 func show_with_fade(node:Control):
 	node.modulate.a = 0.0  # 设置初始透明度为0
 	node.visible = true
@@ -65,13 +74,13 @@ func show_with_fade(node:Control):
 	# 渐入完成后开始脉冲效果
 	tween.tween_callback(func(): start_pulse_effect(node))
 
-# 隐藏hint并播放渐出动画
+# 隐藏并播放渐出动画
 func hide_with_fade(node:Control):
 	if not node.visible:
 		return
 	
 	# 停止所有动画
-	stop_all_animations()
+	#stop_all_animations()
 	
 	# 创建渐出动画
 	tween = create_tween()
@@ -79,7 +88,7 @@ func hide_with_fade(node:Control):
 	# 动画完成后隐藏节点
 	tween.tween_callback(func(): node.visible = false)
 
-# 停止所有hint相关的动画
+# 停止所有相关的动画
 func stop_all_animations():
 	if tween:
 		tween.kill()
@@ -100,9 +109,6 @@ func start_pulse_effect(node:Control):
 
 
 
-# 清除hint（带渐变效果）
-func clear_center_container():
-	hide_with_fade(center_container)
 
 # 设置hint文本并显示（带脉冲效果）
 func show_center_container(text: String):

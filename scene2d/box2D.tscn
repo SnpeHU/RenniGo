@@ -1,9 +1,12 @@
-[gd_scene load_steps=11 format=3 uid="uid://dfpaoxri17ee7"]
+[gd_scene load_steps=15 format=3 uid="uid://dfpaoxri17ee7"]
 
 [ext_resource type="Script" uid="uid://dq36pmrd8y1a6" path="res://script/box_2d.gd" id="1_jmass"]
 [ext_resource type="Shader" uid="uid://dc0nkf4tvq858" path="res://shader/outline.gdshader" id="2_rfxy5"]
 [ext_resource type="Texture2D" uid="uid://cmjwsysdd53ge" path="res://art/箱子.png" id="2_wrd5v"]
 [ext_resource type="Texture2D" uid="uid://sg3ql7wlcc6i" path="res://art/smoke12.png" id="4_4kerv"]
+[ext_resource type="AudioStream" uid="uid://bhqpxu434l5jd" path="res://sounds/impactWood_light_002.ogg" id="5_absmt"]
+[ext_resource type="AudioStream" uid="uid://c1m217lbuiuih" path="res://sounds/impactWood_light_003.ogg" id="6_58cts"]
+[ext_resource type="AudioStream" uid="uid://dllhrj36i1wa0" path="res://sounds/impactWood_light_004.ogg" id="7_2j8gi"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_q8cfy"]
 
@@ -44,6 +47,13 @@ scale_max = 0.3
 scale_over_velocity_max = 1000.0
 alpha_curve = SubResource("CurveTexture_voi84")
 
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_uoo4e"]
+playback_mode = 1
+streams_count = 3
+stream_0/stream = ExtResource("5_absmt")
+stream_1/stream = ExtResource("6_58cts")
+stream_2/stream = ExtResource("7_2j8gi")
+
 [node name="Box" type="RigidBody2D" groups=["Box"]]
 collision_layer = 2
 collision_mask = 2
@@ -74,5 +84,8 @@ amount = 3
 texture = ExtResource("4_4kerv")
 explosiveness = 1.0
 process_material = SubResource("ParticleProcessMaterial_tjbap")
+
+[node name="ImpactSoundStream" type="AudioStreamPlayer2D" parent="."]
+stream = SubResource("AudioStreamRandomizer_uoo4e")
 
 [connection signal="timeout" from="Timer_live" to="." method="_on_timer_live_timeout"]

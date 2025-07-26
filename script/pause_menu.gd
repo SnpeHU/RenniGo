@@ -1,6 +1,5 @@
 extends CanvasLayer
 @export var pause_panel:Panel
-@onready var current_scene:Level = $"../GameLayer/Main2D"
 
 func pause():
 	get_tree().paused = true

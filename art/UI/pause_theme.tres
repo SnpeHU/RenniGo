@@ -1,7 +1,8 @@
-[gd_resource type="Theme" load_steps=7 format=3 uid="uid://cdpys4g3sl3io"]
+[gd_resource type="Theme" load_steps=9 format=3 uid="uid://cdpys4g3sl3io"]
 
 [ext_resource type="Texture2D" uid="uid://v1c5ymu5r8um" path="res://art/UI/Clear-Button.png" id="1_mgxl0"]
 [ext_resource type="Texture2D" uid="uid://bp1h52dhtrm50" path="res://art/UI/Clear-Press-button.png" id="2_4rw40"]
+[ext_resource type="Texture2D" uid="uid://bvjwh02u3oukp" path="res://art/UI/bar.png" id="3_4rw40"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_mgwd7"]
 texture = ExtResource("1_mgxl0")
@@ -24,7 +25,21 @@ texture_margin_top = 24.0
 texture_margin_right = 24.0
 texture_margin_bottom = 24.0
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mgxl0"]
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_mgxl0"]
+texture = ExtResource("2_4rw40")
+texture_margin_left = 32.0
+texture_margin_top = 32.0
+texture_margin_right = 32.0
+texture_margin_bottom = 32.0
+modulate_color = Color(1, 0.989062, 0.989062, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_l6raf"]
+texture = ExtResource("3_4rw40")
+texture_margin_left = 24.0
+texture_margin_top = 24.0
+texture_margin_right = 24.0
+texture_margin_bottom = 24.0
+modulate_color = Color(1, 0.832554, 0.245313, 1)
 
 [resource]
 default_font_size = 24
@@ -34,4 +49,7 @@ Button/colors/font_pressed_color = Color(0.215686, 0.215686, 0.215686, 1)
 Button/styles/hover = SubResource("StyleBoxTexture_mgwd7")
 Button/styles/normal = SubResource("StyleBoxTexture_jgpj5")
 Button/styles/pressed = SubResource("StyleBoxTexture_y1kom")
-ProgressBar/styles/background = SubResource("StyleBoxFlat_mgxl0")
+ProgressBar/colors/font_color = Color(0.454902, 0.329412, 0.447059, 1)
+ProgressBar/font_sizes/font_size = 16
+ProgressBar/styles/background = SubResource("StyleBoxTexture_mgxl0")
+ProgressBar/styles/fill = SubResource("StyleBoxTexture_l6raf")

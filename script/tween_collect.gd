@@ -79,3 +79,26 @@ static func appear_animation(target: Node2D, callback: Callable = Callable()) ->
 	# 动画结束后的回调
 	if callback.is_valid():
 		tween.tween_callback(callback).set_delay(appear_duration)
+
+#Control出现动画
+static func appear_animation_control(target: Control, callback: Callable = Callable()) -> void:
+	# 设置初始状态
+	target.visible = true
+	target.scale = Vector2.ZERO
+	target.modulate.a = 0.0
+
+	var appear_duration: float = 1.0  ## 出现动画持续时间
+	var tween = target.create_tween()
+	tween.set_parallel(true)  # 允许多个动画同时进行
+	# 缩放动画 - 从0缩放到当前大小
+	var scale_tween = tween.tween_property(target, "scale", Vector2.ONE, appear_duration)
+	scale_tween.set_ease(Tween.EASE_OUT)
+	scale_tween.set_trans(Tween.TRANS_BACK)
+
+	# 透明度动画 - 从完全透明到完全不透明
+	var fade_tween = tween.tween_property(target, "modulate:a", 1.0, appear_duration)
+	fade_tween.set_ease(Tween.EASE_IN)
+
+	# 动画结束后的回调
+	if callback.is_valid():
+		tween.tween_callback(callback).set_delay(appear_duration)

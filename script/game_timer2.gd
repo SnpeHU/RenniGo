@@ -3,7 +3,7 @@ class_name GameTimer
 
 # 倒计时速度相关常量
 const SPEED_INCREASE_RATE: float = 0.1       # 每次增加10%的速度
-const MAX_SPEED_MULTIPLIER: float = 3.0      # 最大速度倍率（3倍速）
+const MAX_SPEED_MULTIPLIER: float = 5.0      # 最大速度倍率（3倍速）
 
 # 时间变量
 var speed_increase_interval : float          # 每X秒增加速度

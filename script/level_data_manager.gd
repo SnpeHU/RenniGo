@@ -11,7 +11,7 @@ var combo_count:int = 0
 var combo_multiplier:float = BASE_COMBO_MULTIPLIER
 
 @onready var game_timer:Node = $GameTimer
-const SPEED_INCREASE_INTERVAL: float = 5.0  # 每X秒增加速度
+const SPEED_INCREASE_INTERVAL: float = 10.0  # 每X秒增加速度
 
 func _ready() -> void:
 	# 初始化计时器

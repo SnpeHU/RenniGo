@@ -1,13 +1,15 @@
-[gd_scene load_steps=4 format=3 uid="uid://dxno7mjod2kvn"]
+[gd_scene load_steps=4 format=3 uid="uid://bbxgkuyd584e3"]
 
-[ext_resource type="Texture2D" uid="uid://buerivbvqs8cy" path="res://art/UI/base.png" id="1_58qtx"]
 [ext_resource type="Shader" uid="uid://y5ckmr3rrgks" path="res://shader/bar.gdshader" id="1_lav74"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_58qtx"]
+load_path = "res://.godot/imported/base.png-28857f1053f7ef3ef88492148f0ca5a0.ctex"
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_koyhn"]
 shader = ExtResource("1_lav74")
 shader_parameter/progress = 0.98
 shader_parameter/background_color = Color(0.38, 0.38, 0.38, 0)
-shader_parameter/color_gradient = ExtResource("1_58qtx")
+shader_parameter/color_gradient = SubResource("CompressedTexture2D_58qtx")
 shader_parameter/wave_amplitude = 0.017
 shader_parameter/wave_frequency = 5.632
 shader_parameter/wave_speed = 3.309
@@ -34,4 +36,4 @@ material = SubResource("ShaderMaterial_koyhn")
 layout_mode = 1
 offset_right = 353.0
 offset_bottom = 73.0
-texture = ExtResource("1_58qtx")
+texture = SubResource("CompressedTexture2D_58qtx")

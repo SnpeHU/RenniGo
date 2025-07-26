@@ -1,9 +1,13 @@
-[gd_scene load_steps=8 format=3 uid="uid://ci80sosebkb58"]
+[gd_scene load_steps=12 format=3 uid="uid://ci80sosebkb58"]
 
 [ext_resource type="Script" uid="uid://pvuvf58ta43" path="res://script/main_hud.gd" id="1_hxvcr"]
 [ext_resource type="Texture2D" uid="uid://cmjwsysdd53ge" path="res://art/箱子.png" id="2_bur13"]
 [ext_resource type="Texture2D" uid="uid://c6ht1jw135hhk" path="res://art/猫金币.png" id="2_jowk0"]
+[ext_resource type="Theme" uid="uid://cdpys4g3sl3io" path="res://art/UI/pause_theme.tres" id="4_455sc"]
 [ext_resource type="Script" uid="uid://bvebgtnjecdmd" path="res://script/coin_particle.gd" id="4_o3rbf"]
+[ext_resource type="Texture2D" uid="uid://dsh8qnt2akgad" path="res://art/UI/game_logo.png" id="4_w2ikn"]
+[ext_resource type="Texture2D" uid="uid://bvjwh02u3oukp" path="res://art/UI/bar.png" id="7_3xvjh"]
+[ext_resource type="Texture2D" uid="uid://bp1h52dhtrm50" path="res://art/UI/Clear-Press-button.png" id="7_o75xb"]
 
 [sub_resource type="FontVariation" id="FontVariation_vdn6t"]
 spacing_glyph = 20
@@ -30,7 +34,7 @@ offset_right = 40.0
 offset_bottom = 40.0
 script = ExtResource("4_o3rbf")
 coin_texture = ExtResource("2_jowk0")
-target = NodePath("../UI/Left_top/HBoxContainer/Coin_texture/Node2D")
+target = NodePath("../UI/Left_top/Data/ScoreContainer/Coin_texture/Node2D")
 
 [node name="UI" type="Control" parent="."]
 layout_mode = 3
@@ -40,36 +44,33 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 rotation = -0.0014164
+theme = ExtResource("4_455sc")
 
-[node name="GameTimerBar" type="TextureProgressBar" parent="UI"]
+[node name="Left_top" type="VSplitContainer" parent="UI"]
+visible = false
 layout_mode = 1
-anchors_preset = 9
-anchor_bottom = 1.0
-offset_right = 48.0
-grow_vertical = 2
-fill_mode = 2
-
-[node name="Left_top" type="VBoxContainer" parent="UI"]
-layout_mode = 1
-offset_left = 50.0
+offset_left = 25.0
 offset_top = 25.0
-offset_right = 160.0
-offset_bottom = 175.0
-size_flags_vertical = 4
+offset_right = 125.0
+offset_bottom = 625.0
+split_offset = 120
+drag_area_highlight_in_editor = true
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="UI/Left_top"]
+[node name="Data" type="VBoxContainer" parent="UI/Left_top"]
 layout_mode = 2
-size_flags_horizontal = 5
+
+[node name="CountContainer" type="HBoxContainer" parent="UI/Left_top/Data"]
+layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/separation = 20
 
-[node name="Box_texture" type="TextureRect" parent="UI/Left_top/HBoxContainer2"]
+[node name="Box_texture" type="TextureRect" parent="UI/Left_top/Data/CountContainer"]
 layout_mode = 2
 texture = ExtResource("2_bur13")
 expand_mode = 3
 flip_h = true
 
-[node name="Count_text" type="Label" parent="UI/Left_top/HBoxContainer2"]
+[node name="Count_text" type="Label" parent="UI/Left_top/Data/CountContainer"]
 visible = false
 layout_mode = 2
 size_flags_horizontal = 0
@@ -82,7 +83,7 @@ text = "盒子数"
 horizontal_alignment = 2
 vertical_alignment = 1
 
-[node name="Count" type="Label" parent="UI/Left_top/HBoxContainer2"]
+[node name="Count" type="Label" parent="UI/Left_top/Data/CountContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 3
@@ -94,22 +95,22 @@ text = "0"
 horizontal_alignment = 2
 vertical_alignment = 1
 
-[node name="HBoxContainer" type="HBoxContainer" parent="UI/Left_top"]
+[node name="ScoreContainer" type="HBoxContainer" parent="UI/Left_top/Data"]
 layout_mode = 2
 size_flags_horizontal = 5
 size_flags_vertical = 3
 theme_override_constants/separation = 20
 
-[node name="Coin_texture" type="TextureRect" parent="UI/Left_top/HBoxContainer"]
+[node name="Coin_texture" type="TextureRect" parent="UI/Left_top/Data/ScoreContainer"]
 layout_mode = 2
 texture = ExtResource("2_jowk0")
 expand_mode = 3
 flip_h = true
 
-[node name="Node2D" type="Node2D" parent="UI/Left_top/HBoxContainer/Coin_texture"]
+[node name="Node2D" type="Node2D" parent="UI/Left_top/Data/ScoreContainer/Coin_texture"]
 position = Vector2(17.7875, 23.0962)
 
-[node name="Score_text" type="Label" parent="UI/Left_top/HBoxContainer"]
+[node name="Score_text" type="Label" parent="UI/Left_top/Data/ScoreContainer"]
 visible = false
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
@@ -120,7 +121,7 @@ text = "分数"
 horizontal_alignment = 2
 vertical_alignment = 1
 
-[node name="Score" type="Label" parent="UI/Left_top/HBoxContainer"]
+[node name="Score" type="Label" parent="UI/Left_top/Data/ScoreContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 3
@@ -131,6 +132,35 @@ theme_override_font_sizes/font_size = 30
 text = "0"
 horizontal_alignment = 2
 vertical_alignment = 1
+
+[node name="TextureProgressBar" type="TextureProgressBar" parent="UI/Left_top"]
+layout_mode = 2
+size_flags_horizontal = 0
+step = 0.01
+allow_greater = true
+fill_mode = 3
+nine_patch_stretch = true
+stretch_margin_left = 24
+stretch_margin_top = 36
+stretch_margin_right = 24
+stretch_margin_bottom = 24
+texture_under = ExtResource("7_o75xb")
+texture_progress = ExtResource("7_3xvjh")
+tint_progress = Color(0.967188, 0.813953, 0.276555, 1)
+
+[node name="Title" type="TextureRect" parent="UI"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -500.13
+offset_top = 92.0566
+offset_right = -0.130371
+offset_bottom = 392.057
+grow_horizontal = 0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("4_w2ikn")
 
 [node name="CenterHint" type="VBoxContainer" parent="UI"]
 visible = false
@@ -162,27 +192,3 @@ label_settings = SubResource("LabelSettings_1ltgb")
 [node name="HighScore" type="Label" parent="UI/CenterHint/HBoxContainer"]
 layout_mode = 2
 label_settings = SubResource("LabelSettings_1ltgb")
-
-[node name="GameProgressBar" type="ProgressBar" parent="UI"]
-visible = false
-layout_mode = 1
-anchors_preset = 9
-anchor_bottom = 1.0
-offset_right = 4.0
-grow_vertical = 2
-scale = Vector2(10.9185, 1)
-value = 200.0
-allow_greater = true
-fill_mode = 3
-show_percentage = false
-
-[node name="TextureProgressBar" type="TextureProgressBar" parent="UI"]
-layout_mode = 1
-anchors_preset = 9
-anchor_bottom = 1.0
-offset_right = 1.0
-grow_vertical = 2
-scale = Vector2(33.6369, 1)
-value = 100.0
-allow_greater = true
-fill_mode = 3

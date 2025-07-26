@@ -39,6 +39,8 @@ var is_ready:bool = false##用于判断出现动画是否播放
 #动画 
 @export var smoke_speed_threshold: float = 0.0  ## 产生烟雾的最小速度阈值
 
+#音效
+@onready var impact_sounds:AudioStreamPlayer2D = $ImpactSoundStream
 #修bug：高处时会导致位置偏移故记录上一帧位置修正
 var pre_position:Vector2
 
@@ -71,6 +73,7 @@ func _on_box_body_entered(body: Node) -> void:
 	#var current_speed = linear_velocity.length()
 	#if current_speed > smoke_speed_threshold:
 	if body.is_in_group("Box"):
+		impact_sounds.play()
 		if check_stability(body):
 			freeze_body()
 			# 计算分数
