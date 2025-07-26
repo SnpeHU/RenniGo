@@ -47,27 +47,12 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -483.0
-offset_top = -159.0
+offset_top = -21.0
 offset_right = 517.0
-offset_bottom = 1841.0
+offset_bottom = 1979.0
 grow_horizontal = 2
 grow_vertical = 2
-scale = Vector2(1, 1.08904)
 color = Color(0.656909, 0.879687, 0.531936, 1)
-
-[node name="ColorRect2" type="ColorRect" parent="."]
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -483.0
-offset_top = -2161.0
-offset_right = 517.0
-offset_bottom = -161.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(0.59697, 0.949219, 0.939312, 1)
 
 [node name="BackGround" type="Node2D" parent="."]
 
