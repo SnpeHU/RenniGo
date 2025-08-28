@@ -3,7 +3,6 @@
 [ext_resource type="Shader" uid="uid://y5ckmr3rrgks" path="res://shader/bar.gdshader" id="1_lav74"]
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_58qtx"]
-load_path = "res://.godot/imported/base.png-28857f1053f7ef3ef88492148f0ca5a0.ctex"
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_koyhn"]
 shader = ExtResource("1_lav74")

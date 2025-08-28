@@ -5,8 +5,8 @@
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_a2mun"]
 shader = ExtResource("1_evn8o")
-shader_parameter/color_one = Color(0.298264, 0.717075, 0.904688, 1)
-shader_parameter/color_two = Color(1, 1, 1, 1)
+shader_parameter/color_one = Color(0.979688, 0.720678, 0.283191, 1)
+shader_parameter/color_two = Color(0.891965, 0.985937, 0.985056, 1)
 shader_parameter/angle = 10.0
 shader_parameter/line_count = 100.0
 shader_parameter/speed = -3.0
